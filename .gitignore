@@ -1,3 +1,5 @@
 venv
 *.pyc
 clippings.txt
+.mypy_cache
+.idea

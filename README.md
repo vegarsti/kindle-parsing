@@ -1,1 +1,3 @@
-Need a clippings.txt file, from the Kindle
+# Kindle parsing
+
+Need a `clippings.txt` file from a Kindle.

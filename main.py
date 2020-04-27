@@ -1,5 +1,3 @@
-from itertools import groupby
-
 with open("clippings.txt", "r", encoding="utf-8-sig") as f:
     contents = f.read()
 splitter = "=========="
@@ -9,8 +7,9 @@ print(len(split_contents))
 
 def parse(clipping):
     lines = clipping.split("\n")
-    if len(lines) == 1:
-        return None
+    if len(lines) != 4:
+        print(lines)
+        return None  # is a bookmark?
     title, metadata, _, content = lines
     first, datetime = metadata.split("Added on ")
     first = first.split("- Your ")[1].split(" on ")
@@ -25,6 +24,12 @@ def is_highlight(c) -> bool:
     return c[1] == "Highlight"
 
 
+def is_bookmark(c) -> bool:
+    if c is None:
+        return False
+    return c[1] == "Bookmark"
+
+
 def title(c):
     return c[0]
 
@@ -33,6 +38,7 @@ highlights = [parse(c) for c in split_contents if is_highlight(parse(c))]
 sorted_highlights = sorted(highlights, key=title)
 
 
+"""
 grouped = groupby(sorted_highlights, key=title)
 for i, (title, highlight_tuples) in enumerate(grouped):
     highlight_tuples = list(highlight_tuples)  # type: ignore
@@ -54,3 +60,4 @@ for i, (title, highlight_tuples) in enumerate(grouped):
             fd.write("\n\n")
             fd.write("&nbsp;")
             fd.write("\n\n")
+"""
