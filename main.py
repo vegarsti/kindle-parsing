@@ -1,8 +1,7 @@
-import sys
 from itertools import groupby
 
-with open("clippings.txt", "r", encoding="utf-8-sig") as fd:
-    contents = fd.read()
+with open("clippings.txt", "r", encoding="utf-8-sig") as f:
+    contents = f.read()
 splitter = "=========="
 split_contents = [c.strip().replace("\ufeff", "") for c in contents.split(splitter)]
 print(len(split_contents))
@@ -20,7 +19,7 @@ def parse(clipping):
     return title, kind, location, datetime, content
 
 
-def is_highlight(c):
+def is_highlight(c) -> bool:
     if c is None:
         return False
     return c[1] == "Highlight"
@@ -36,14 +35,14 @@ sorted_highlights = sorted(highlights, key=title)
 
 grouped = groupby(sorted_highlights, key=title)
 for i, (title, highlight_tuples) in enumerate(grouped):
-    highlight_tuples = list(highlight_tuples)
-    print(len(highlight_tuples))
+    highlight_tuples = list(highlight_tuples)  # type: ignore
+    print(len(highlight_tuples))  # type: ignore
     with open(f"mds/{i}.md", "w+") as fd:
-        split_title = title.rsplit(")")
+        split_title = title.rsplit(")")  # type: ignore
         if len(split_title) > 2:
             author = split_title[-2]
             author = author.rsplit("(")[-1]
-            title = ")".join(split_title[:-2]) + ")"
+            title = ")".join(split_title[:-2]) + ")"  # type: ignore
         elif len(split_title) == 2:
             author = split_title[0]
             title, author = author.rsplit("(")
